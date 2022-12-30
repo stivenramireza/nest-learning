@@ -1,0 +1,12 @@
+# Code editor
+.vscode
+
+# Environment variables
+.env
+
+# Build
+dist
+
+# Node
+node_modules
+yarn.lock
