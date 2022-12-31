@@ -18,4 +18,8 @@ export const charmander: Pokemon = {
     age: 1,
 };
 
-console.log(bubasaur);
+export const pokemons: Pokemon[] = [];
+
+pokemons.push(charmander, bubasaur);
+
+console.log(pokemons);
