@@ -1,7 +1,7 @@
 import './style.css';
 import typescriptLogo from './typescript.svg';
 import { setupCounter } from './counter';
-import { charmander } from './basics/04-injection';
+import { charmander } from './basics/06-decorators2';
 
 document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
   <div>
