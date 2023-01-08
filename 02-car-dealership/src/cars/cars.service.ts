@@ -6,7 +6,7 @@ import {
 } from '@nestjs/common';
 
 import { v4 as uuid } from 'uuid';
-import { CreateCarDTO, UpdateCarDTO } from './dtos';
+import { CreateCarDTO, UpdateCarDTO } from './dto';
 
 import { Car } from './interfaces/cars.interface';
 

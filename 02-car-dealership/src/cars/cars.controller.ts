@@ -10,7 +10,7 @@ import {
 } from '@nestjs/common';
 
 import { CarsService } from './cars.service';
-import { CreateCarDTO, UpdateCarDTO } from './dtos';
+import { CreateCarDTO, UpdateCarDTO } from './dto';
 
 @Controller('cars')
 export class CarsController {
