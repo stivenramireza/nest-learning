@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import axios, { AxiosInstance } from 'axios';
 import { PokemonsService } from 'src/pokemons/pokemons.service';
+import { InsertedPokemon } from './interfaces/inserted-pokemon.interface';
 import { PokeApiResponse } from './interfaces/poke-api-response.interface';
 
 @Injectable()
@@ -10,28 +11,23 @@ export class SeedService {
   constructor(private readonly pokemonsService: PokemonsService) {}
 
   async executeSeed() {
+    this.pokemonsService.removeMany();
+
     const { data } = await this.axios.get<PokeApiResponse>(
-      'https://pokeapi.co/api/v2/pokemon?limit=500',
+      'https://pokeapi.co/api/v2/pokemon?limit=650',
     );
 
-    const results = data.results;
+    const pokemonsToInsert: InsertedPokemon[] = [];
 
-    let counter = 0;
-    const chunks = 20;
+    data.results.forEach(({ name, url }) => {
+      const segments = url.split('/');
+      const no: number = +segments[segments.length - 2];
+      const pokemon = { name, no };
 
-    while (counter <= results.length) {
-      const data = results.slice(counter, counter + chunks);
+      pokemonsToInsert.push(pokemon);
+    });
 
-      data.forEach(async ({ name, url }) => {
-        const segments = url.split('/');
-        const no: number = +segments[segments.length - 2];
-        const pokemon = { name, no };
-
-        await this.pokemonsService.create(pokemon);
-      });
-
-      counter = counter + chunks;
-    }
+    this.pokemonsService.createMany(pokemonsToInsert);
 
     return 'Seed executed';
   }

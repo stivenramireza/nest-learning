@@ -25,6 +25,12 @@ npm i -g @nestjs/cli
 docker-compose up -d
 ```
 
+5. Build the database with the seed.
+
+```bash
+curl -X POST http://localhost:3000/api/v2/seed
+```
+
 ## Technologies stack
 
 - [Nest.js](https://nestjs.com)

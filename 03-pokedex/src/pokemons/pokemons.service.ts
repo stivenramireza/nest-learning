@@ -54,6 +54,10 @@ export class PokemonsService {
     }
   }
 
+  async createMany(createPokemonDto: CreatePokemonDto[]) {
+    await this.pokemonModel.insertMany(createPokemonDto);
+  }
+
   async update(term: string, updatePokemonDto: UpdatePokemonDto) {
     const pokemon = await this.findOne(term);
 
@@ -72,6 +76,10 @@ export class PokemonsService {
   async remove(id: string) {
     const { deletedCount } = await this.pokemonModel.deleteOne({ _id: id });
     if (deletedCount === 0) throw new NotFoundException('Pokemon not found');
+  }
+
+  async removeMany() {
+    await this.pokemonModel.deleteMany({});
   }
 
   private handleExceptions(error: any) {
