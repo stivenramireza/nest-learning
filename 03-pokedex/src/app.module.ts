@@ -9,6 +9,7 @@ import * as Joi from 'joi';
 import config, { Environment } from './config/config';
 import { MongooseConfigService } from './config/database.config';
 import { PokemonsModule } from './pokemons/pokemons.module';
+import { CommonModule } from './common/common.module';
 
 @Module({
   imports: [
@@ -33,6 +34,7 @@ import { PokemonsModule } from './pokemons/pokemons.module';
     }),
     MongooseModule.forRootAsync({ useClass: MongooseConfigService }),
     PokemonsModule,
+    CommonModule,
   ],
 })
 export class AppModule {}
