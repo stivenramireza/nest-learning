@@ -1,12 +1,14 @@
 import { ValidationPipe } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
-import configuration from './config/configuration';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
-  app.setGlobalPrefix(configuration().app.apiVersion);
+  const configService = app.get(ConfigService);
+
+  app.setGlobalPrefix(configService.get('API_VERSION'));
 
   app.useGlobalPipes(
     new ValidationPipe({

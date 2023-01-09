@@ -12,7 +12,9 @@ services:
     volumes:
       - mongo-data:/data/db
     environment:
-      MONGODB_DATABASE: ${DB_NAME}
+      MONGO_INITDB_ROOT_USERNAME: ${DB_USERNAME}
+      MONGO_INITDB_ROOT_PASSWORD: ${DB_PASSWORD}
+      MONGO_INITDB_DATABASE: ${DB_NAME}
 
 networks:
   pokedex:
