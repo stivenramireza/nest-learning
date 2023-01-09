@@ -10,6 +10,7 @@ import config, { Environment } from './config/config';
 import { MongooseConfigService } from './config/database.config';
 import { PokemonsModule } from './pokemons/pokemons.module';
 import { CommonModule } from './common/common.module';
+import { SeedModule } from './seed/seed.module';
 
 @Module({
   imports: [
@@ -35,6 +36,7 @@ import { CommonModule } from './common/common.module';
     MongooseModule.forRootAsync({ useClass: MongooseConfigService }),
     PokemonsModule,
     CommonModule,
+    SeedModule,
   ],
 })
 export class AppModule {}
