@@ -22,5 +22,10 @@ async function bootstrap() {
   );
 
   await app.listen(configService.get('PORT'));
+  console.log(
+    `App running on port ${configService.get('PORT')} in ${configService.get(
+      'ENV',
+    )} mode`,
+  );
 }
 bootstrap();

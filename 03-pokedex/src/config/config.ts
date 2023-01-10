@@ -1,6 +1,6 @@
 import * as Joi from 'joi';
 
-enum Environment {
+export enum Environment {
   DEVELOPMENT = 'development',
   PRODUCTION = 'production',
 }
