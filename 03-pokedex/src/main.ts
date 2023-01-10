@@ -14,9 +14,18 @@ async function bootstrap() {
     new ValidationPipe({
       whitelist: true,
       forbidNonWhitelisted: true,
+      transform: true,
+      transformOptions: {
+        enableImplicitConversion: true,
+      },
     }),
   );
 
-  await app.listen(3000);
+  await app.listen(configService.get('PORT'));
+  console.log(
+    `App running on port ${configService.get('PORT')} in ${configService.get(
+      'ENV',
+    )} mode`,
+  );
 }
 bootstrap();
