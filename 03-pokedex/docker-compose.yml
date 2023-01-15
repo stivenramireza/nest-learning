@@ -3,7 +3,7 @@ version: '3.1'
 services:
   pokedex-api:
     container_name: pokedex-api
-    image: stivenramireza/pokedex-api:1.0.0
+    image: stivenramireza/pokedex-api:1.0.1
     ports:
       - ${PORT}:${PORT}
     networks:

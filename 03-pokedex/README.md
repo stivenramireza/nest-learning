@@ -28,10 +28,10 @@ curl -X POST http://localhost:3000/api/v2/seed
 
 2. Fill the environment variables defined in the ```.env``` file.
 
-3. Build and run the application in **production** mode:
+3. Run the application in **production** mode:
 
 ```bash
-docker-compose up --build
+docker-compose up
 ```
 
 4. Fill the database with the seed endpoint.
