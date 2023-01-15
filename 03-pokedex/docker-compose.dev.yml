@@ -1,0 +1,44 @@
+version: '3.1'
+
+services:
+  pokedex-api:
+    container_name: pokedex-api
+    build: .
+    ports:
+      - ${PORT}:${PORT}
+    networks:
+      - pokedex
+    depends_on:
+      - mongo-db
+    environment:
+      PORT: ${PORT}
+      ENV: ${ENV}
+      API_VERSION: ${API_VERSION}
+      DB_HOST: mongo-db
+      DB_PORT: ${DB_PORT}
+      DB_NAME: ${DB_NAME}
+      DB_USERNAME: ${DB_USERNAME}
+      DB_PASSWORD: ${DB_PASSWORD}
+      DEFAULT_LIMIT: ${DEFAULT_LIMIT}
+  
+  mongo-db:
+    container_name: mongo-db
+    image: mongo:5
+    ports:
+        - ${DB_PORT}:${DB_PORT}
+    networks:
+      - pokedex
+    volumes:
+      - mongo-db-data:/data/db
+    command: mongod --ipv6
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: ${DB_USERNAME}
+      MONGO_INITDB_ROOT_PASSWORD: ${DB_PASSWORD}
+      MONGO_INITDB_DATABASE: ${DB_NAME}
+
+networks:
+  pokedex:
+
+volumes:
+  mongo-db-data:
+    driver: local
