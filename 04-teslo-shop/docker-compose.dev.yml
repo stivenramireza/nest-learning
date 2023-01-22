@@ -1,0 +1,24 @@
+version: '3.1'
+
+services:
+  postgres-db:
+    container_name: postgres-db
+    image: postgres:14.3
+    ports:
+      - ${DB_PORT}:${DB_PORT}
+    networks:
+      - teslo-shop
+    volumes:
+      - postgres-db-data:/var/lib/postgresql/data
+    environment:
+      POSTGRES_DB: ${DB_NAME}
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      PGDATA: /var/lib/postgresql/data/pgdata
+
+networks:
+  teslo-shop:
+
+volumes:
+  postgres-db-data:
+    driver: local
