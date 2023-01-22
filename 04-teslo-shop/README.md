@@ -6,14 +6,28 @@
 
 ## Development execution
 
-1. Clone the file ```.env.template``` and rename to ```.env```.
+1. Clone the repository.
 
-2. Fill the environment variables defined in the ```.env``` file.
+2. Install the application dependencies:
 
-3. Load the database:
+```bash
+yarn install
+```
+
+2. Clone the file ```.env.template``` and rename to ```.env```.
+
+3. Fill the environment variables defined in the ```.env``` file.
+
+4. Load the database:
 
 ```bash
 docker-compose -f docker-compose.dev.yml up
+```
+
+5. Run the application in **development** mode:
+
+```bash
+yarn start:dev
 ```
 
 ## Technologies stack
