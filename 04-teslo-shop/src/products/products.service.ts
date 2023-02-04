@@ -12,6 +12,8 @@ import { Product } from './entities/product.entity';
 import { CreateProductDto } from './dto/create-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
 
+import { PaginationDto } from 'src/common/dto/pagination.dto';
+
 @Injectable()
 export class ProductsService {
   private readonly logger = new Logger('ProductsService');
@@ -32,9 +34,15 @@ export class ProductsService {
     }
   }
 
-  // TODO: Pagination
-  async findAll(): Promise<Product[]> {
-    return await this.productRepository.find({ where: { active: true } });
+  async findAll(paginationDto: PaginationDto): Promise<Product[]> {
+    const { limit = 10, offset = 0 } = paginationDto;
+
+    return await this.productRepository.find({
+      where: { active: true },
+      take: limit,
+      skip: offset,
+      // TODO: Relations
+    });
   }
 
   async findOne(id: string): Promise<Product> {
