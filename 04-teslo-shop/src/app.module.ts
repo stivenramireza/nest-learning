@@ -4,6 +4,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import config, { ConfigSchema } from './config/config';
 import { TypeOrmConfigService } from './config/database.config';
 import { ProductsModule } from './products/products.module';
+import { CommonModule } from './common/common.module';
 
 @Module({
   imports: [
@@ -14,6 +15,7 @@ import { ProductsModule } from './products/products.module';
     }),
     TypeOrmModule.forRootAsync({ useClass: TypeOrmConfigService }),
     ProductsModule,
+    CommonModule,
   ],
   controllers: [],
   providers: [],

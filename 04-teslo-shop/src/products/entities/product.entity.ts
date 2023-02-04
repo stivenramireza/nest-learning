@@ -50,9 +50,6 @@ export class Product {
       this.slug = this.title;
     }
 
-    this.slug = this.slug
-      .toLowerCase()
-      .replaceAll(' ', '_')
-      .replaceAll("'", '');
+    this.slug = this.slug.toLowerCase().replace(' ', '_').replace("'", '');
   }
 }
