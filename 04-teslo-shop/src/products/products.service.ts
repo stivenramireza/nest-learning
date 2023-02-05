@@ -8,11 +8,13 @@ import {
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
-import { Product } from './entities/product.entity';
+import { Product, ProductImage } from './entities';
 import { CreateProductDto } from './dto/create-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
 
 import { PaginationDto } from 'src/common/dto/pagination.dto';
+
+import { validate as isUUID } from 'uuid';
 
 @Injectable()
 export class ProductsService {
@@ -21,41 +23,92 @@ export class ProductsService {
   constructor(
     @InjectRepository(Product)
     private readonly productRepository: Repository<Product>,
+    @InjectRepository(ProductImage)
+    private readonly productImageRepository: Repository<ProductImage>,
   ) {}
 
   async create(createProductDto: CreateProductDto) {
     try {
-      const product = this.productRepository.create(createProductDto);
+      const { images = [], ...productDetails } = createProductDto;
+
+      const product = this.productRepository.create({
+        ...productDetails,
+        images: images.map((image) =>
+          this.productImageRepository.create({ url: image }),
+        ),
+      });
+
       await this.productRepository.save(product);
 
-      return product;
+      return { ...product, images };
     } catch (error) {
       this.handleDBExceptions(error);
     }
   }
 
-  async findAll(paginationDto: PaginationDto): Promise<Product[]> {
+  async findAll(paginationDto: PaginationDto) {
     const { limit = 10, offset = 0 } = paginationDto;
 
-    return await this.productRepository.find({
+    const products = await this.productRepository.find({
       where: { active: true },
       take: limit,
       skip: offset,
-      // TODO: Relations
+      relations: {
+        images: true,
+      },
     });
+
+    return products.map((product) => ({
+      ...product,
+      images: product.images.map((img) => img.url),
+    }));
   }
 
-  async findOne(id: string): Promise<Product> {
-    const product = await this.productRepository.findOne({
-      where: { id, active: true },
-    });
+  async findOne(term: string): Promise<Product> {
+    let product: Product;
+
+    if (isUUID(term)) {
+      product = await this.productRepository.findOneBy({
+        id: term,
+        active: true,
+      });
+    } else {
+      const query = this.productRepository.createQueryBuilder('p');
+      product = await query
+        .leftJoinAndSelect('p.images', 'i')
+        .where('UPPER(title) = :title OR slug = :slug', {
+          title: term.toUpperCase(),
+          slug: term.toLowerCase(),
+        })
+        .getOne();
+    }
+
     if (!product) throw new NotFoundException('Product not found');
 
     return product;
   }
 
+  async findOnePlain(term: string) {
+    const { images = [], ...product } = await this.findOne(term);
+    return { ...product, images: images.map((image) => image.url) };
+  }
+
   async update(id: string, updateProductDto: UpdateProductDto) {
-    return `This action updates a #${id} product`;
+    const product = await this.productRepository.preload({
+      id,
+      ...updateProductDto,
+      images: [],
+    });
+
+    if (!product) throw new NotFoundException('Product not found');
+
+    try {
+      await this.productRepository.save(product);
+    } catch (error) {
+      this.handleDBExceptions(error);
+    }
+
+    return product;
   }
 
   async remove(id: string) {
