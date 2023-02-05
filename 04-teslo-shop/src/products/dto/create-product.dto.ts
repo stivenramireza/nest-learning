@@ -32,10 +32,20 @@ export class CreateProductDto {
   @IsOptional()
   stock?: number;
 
-  @IsString({ each: true })
   @IsArray()
+  @IsString({ each: true })
   sizes: string[];
 
   @IsIn(['MEN', 'WOMEN', 'KID', 'UNISEX'])
   gender: string;
+
+  @IsArray()
+  @IsString({ each: true })
+  @IsOptional()
+  tags?: string[];
+
+  @IsArray()
+  @IsString({ each: true })
+  @IsOptional()
+  images?: string[];
 }
