@@ -5,7 +5,7 @@ import { AppModule } from './app.module';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
-  const logger = new Logger('NestApplication');
+  const logger = new Logger('Bootstrap');
 
   const configService = app.get(ConfigService);
 
