@@ -51,7 +51,6 @@ export class ProductsService {
     const { limit = 10, offset = 0 } = paginationDto;
 
     const products = await this.productRepository.find({
-      where: { active: true },
       take: limit,
       skip: offset,
       relations: {
@@ -71,7 +70,6 @@ export class ProductsService {
     if (isUUID(term)) {
       product = await this.productRepository.findOneBy({
         id: term,
-        active: true,
       });
     } else {
       const query = this.productRepository.createQueryBuilder('p');

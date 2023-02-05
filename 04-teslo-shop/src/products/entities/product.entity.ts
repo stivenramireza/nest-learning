@@ -13,9 +13,6 @@ export class Product {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  @Column('boolean', { default: true })
-  active: boolean;
-
   @Column('text', {
     unique: true,
   })
