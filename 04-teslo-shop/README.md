@@ -24,16 +24,16 @@ yarn install
 docker-compose -f docker-compose.dev.yml up
 ```
 
-5. Fill the database with the seed endpoint.
-
-```bash
-curl -X POST http://localhost:3000/api/v1/seed
-```
-
-6. Run the application in **development** mode:
+5. Run the application in **development** mode:
 
 ```bash
 yarn start:dev
+```
+
+6. Fill the database with the seed endpoint.
+
+```bash
+curl -X POST http://localhost:3000/api/v1/seed
 ```
 
 ## Technologies stack
