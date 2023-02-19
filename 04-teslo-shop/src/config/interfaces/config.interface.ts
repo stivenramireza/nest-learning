@@ -17,3 +17,7 @@ export interface DatabaseConfig {
   username: string;
   password: string;
 }
+
+export interface AuthConfig {
+  jwt: string;
+}
