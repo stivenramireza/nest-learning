@@ -13,6 +13,7 @@ export const ConfigSchema = Joi.object({
   DB_NAME: Joi.string().required(),
   DB_USER: Joi.string().required(),
   DB_PASSWORD: Joi.string().required(),
+  JWT_SECRET: Joi.string().required(),
 });
 
 export default () => ({
@@ -28,5 +29,8 @@ export default () => ({
     name: process.env.DB_NAME,
     username: process.env.DB_USER,
     password: process.env.DB_PASSWORD,
+  },
+  auth: {
+    jwt: process.env.JWT_SECRET,
   },
 });
