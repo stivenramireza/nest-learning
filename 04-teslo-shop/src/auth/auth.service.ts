@@ -32,7 +32,7 @@ export class AuthService {
       await this.userRepository.save(user);
       delete user.password;
 
-      return { ...user, token: this.getJwtToken({ email: user.email }) };
+      return { accessToken: this.getJwtToken({ sub: user.id }) };
     } catch (error) {
       this.handleDBExceptions(error);
     }
@@ -43,7 +43,7 @@ export class AuthService {
 
     const user = await this.userRepository.findOne({
       where: { email },
-      select: { email: true, password: true },
+      select: { id: true, email: true, password: true },
     });
 
     if (!user) throw new UnauthorizedException(this.INVALID_CREDENTIALS);
@@ -53,7 +53,7 @@ export class AuthService {
     }
 
     // TODO: Return JWT
-    return { ...user, token: this.getJwtToken({ email: user.email }) };
+    return { accessToken: this.getJwtToken({ sub: user.id }) };
   }
 
   private getJwtToken(payload: JwtPayload) {
