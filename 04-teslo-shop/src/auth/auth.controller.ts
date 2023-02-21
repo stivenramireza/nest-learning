@@ -6,6 +6,9 @@ import { GetUser } from './decorators/get-user.decorator';
 import { RawHeaders } from 'src/common/decorators/raw-headers.decorator';
 import { CreateUserDto, LoginUserDto } from './dto';
 import { User } from './entities/user.entity';
+import { UserRoleGuard } from './guards/user-role/user-role.guard';
+import { Role } from './interfaces';
+import { Auth, RoleProtected } from './decorators';
 
 @Controller('auth')
 export class AuthController {
@@ -35,6 +38,26 @@ export class AuthController {
       user,
       userEmail,
       rawHeaders,
+    };
+  }
+
+  @Get('private2')
+  // @SetMetadata('roles', ['ADMIN', 'SUPER_USER'])
+  @RoleProtected(Role.SUPER_USER, Role.ADMIN)
+  @UseGuards(AuthGuard(), UserRoleGuard)
+  async privateRoute2(@GetUser() user: User) {
+    return {
+      ok: true,
+      user,
+    };
+  }
+
+  @Get('private3')
+  @Auth(Role.USER)
+  async privateRoute3(@GetUser() user: User) {
+    return {
+      ok: true,
+      user,
     };
   }
 }
