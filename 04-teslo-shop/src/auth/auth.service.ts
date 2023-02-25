@@ -56,6 +56,10 @@ export class AuthService {
     return { accessToken: this.getJwtToken({ sub: user.id }) };
   }
 
+  async checkAuthStatus(user: User) {
+    return { refreshToken: this.getJwtToken({ sub: user.id }) };
+  }
+
   private getJwtToken(payload: JwtPayload) {
     return this.jwtService.sign(payload);
   }
