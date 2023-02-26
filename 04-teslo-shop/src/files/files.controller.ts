@@ -15,7 +15,9 @@ import { FilesService } from './files.service';
 import { fileFilter, fileNamer } from './helpers';
 import { ConfigService } from '@nestjs/config';
 import { AppConfig } from 'src/config/interfaces/config.interface';
+import { ApiTags } from '@nestjs/swagger';
 
+@ApiTags('Files')
 @Controller('files')
 export class FilesController {
   constructor(
