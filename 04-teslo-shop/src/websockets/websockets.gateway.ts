@@ -1,3 +1,4 @@
+import { JwtService } from '@nestjs/jwt';
 import {
   OnGatewayConnection,
   OnGatewayDisconnect,
@@ -6,6 +7,7 @@ import {
   WebSocketServer,
 } from '@nestjs/websockets';
 import { Server, Socket } from 'socket.io';
+import { JwtPayload } from 'src/auth/interfaces';
 import { NewMessageDto } from './dto/new-message.dto';
 import { WebsocketsService } from './websockets.service';
 
@@ -15,13 +17,24 @@ export class WebsocketsGateway
 {
   @WebSocketServer() webSocketServer: Server;
 
-  constructor(private readonly websocketsService: WebsocketsService) {}
+  constructor(
+    private readonly websocketsService: WebsocketsService,
+    private readonly jwtService: JwtService,
+  ) {}
 
-  handleConnection(client: Socket) {
+  async handleConnection(client: Socket) {
     const token = client.handshake.headers.authorization as string;
-    console.log({ token });
 
-    this.websocketsService.registerClient(client);
+    let payload: JwtPayload;
+
+    try {
+      payload = this.jwtService.verify(token);
+      await this.websocketsService.registerClient(client, payload.sub);
+    } catch (error) {
+      client.disconnect();
+      return;
+    }
+
     this.emitConnectedClients();
   }
 
@@ -50,8 +63,10 @@ export class WebsocketsGateway
     // });
 
     // Emit all
+    const userFullName = this.websocketsService.getUserFullName(client.id);
+
     this.webSocketServer.emit('message-from-server', {
-      fullName: 'Stiven',
+      fullName: userFullName,
       message: payload.message || 'No message',
     });
   }
