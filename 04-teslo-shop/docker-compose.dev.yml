@@ -5,7 +5,7 @@ services:
     container_name: postgres-db
     image: postgres:14.3
     ports:
-      - ${DB_PORT}:${DB_PORT}
+      - ${DB_PORT}:5432
     networks:
       - teslo-shop
     volumes:
