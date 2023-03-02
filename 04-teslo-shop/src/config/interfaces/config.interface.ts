@@ -6,8 +6,8 @@ export enum Environment {
 export interface AppConfig {
   port: number;
   environment: string;
+  host: string;
   apiVersion: string;
-  apiUrl: string;
 }
 
 export interface DatabaseConfig {

@@ -2,38 +2,42 @@
   <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="200" alt="Nest Logo" /></a>
 </p>
 
-# Tesla Shop API
+# Teslo Shop API
 
 ## Development execution
 
-1. Clone the repository.
+1. Clone the file ```.env.template``` and rename to ```.env```.
 
-2. Install the application dependencies:
+2. Fill the environment variables defined in the ```.env``` file.
 
-```bash
-yarn install
-```
-
-2. Clone the file ```.env.template``` and rename to ```.env```.
-
-3. Fill the environment variables defined in the ```.env``` file.
-
-4. Load the database:
+3. Build and run the application in **development** mode:
 
 ```bash
-docker-compose -f docker-compose.dev.yml up
+docker-compose -f docker-compose.dev.yml up --build
 ```
 
-5. Run the application in **development** mode:
-
-```bash
-yarn start:dev
-```
-
-6. Fill the database with the seed endpoint.
+4. Fill the database with the seed endpoint.
 
 ```bash
 curl -X POST http://localhost:3000/api/v1/seed
+```
+
+## Production execution
+
+1. Clone the file ```.env.template``` and rename to ```.env```.
+
+2. Fill the environment variables defined in the ```.env``` file.
+
+3. Run the application in **production** mode:
+
+```bash
+docker-compose up
+```
+
+4. Fill the database with the seed endpoint.
+
+```bash
+curl -X POST http://0.0.0.0:3000/api/v1/seed
 ```
 
 ## Technologies stack

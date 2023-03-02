@@ -25,6 +25,15 @@ export class TypeOrmConfigService implements TypeOrmOptionsFactory {
       password,
       autoLoadEntities: true,
       synchronize: environment === Environment.PRODUCTION ? false : true,
+      ssl: environment === Environment.PRODUCTION,
+      extra: {
+        ssl:
+          environment === Environment.PRODUCTION
+            ? {
+                rejectUnauthorized: false,
+              }
+            : null,
+      },
     };
   }
 }
