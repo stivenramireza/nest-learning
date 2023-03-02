@@ -6,8 +6,8 @@ export const ConfigSchema = Joi.object({
   ENV: Joi.string()
     .valid(...Object.values(Environment))
     .required(),
+  HOST: Joi.string().required(),
   API_VERSION: Joi.string().required(),
-  API_URL: Joi.string().required(),
   DB_HOST: Joi.string().required(),
   DB_PORT: Joi.number().required(),
   DB_NAME: Joi.string().required(),
@@ -20,8 +20,8 @@ export default () => ({
   app: {
     port: +process.env.PORT,
     environment: process.env.ENV,
+    host: process.env.HOST,
     apiVersion: process.env.API_VERSION,
-    apiUrl: process.env.API_URL,
   },
   database: {
     host: process.env.DB_HOST,
